@@ -6,7 +6,7 @@
 
 class UserDefinedFormControllerTest extends FunctionalTest {
 	
-	static $fixture_file = 'userforms/tests/UserDefinedFormTest.yml';
+	private static $fixture_file = 'userforms/tests/UserDefinedFormTest.yml';
 
 	function testProcess() {
 		$form = $this->setupFormFrontend();

@@ -6,7 +6,7 @@
 
 class EditableFormFieldTest extends FunctionalTest {
 	
-	static $fixture_file = 'userforms/tests/UserDefinedFormTest.yml';
+	private static $fixture_file = 'userforms/tests/UserDefinedFormTest.yml';
 	
 	function testFormFieldPermissions() {
 		$text = $this->objFromFixture('EditableTextField', 'basic-text');

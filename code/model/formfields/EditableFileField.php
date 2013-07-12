@@ -8,8 +8,8 @@
 
 class EditableFileField extends EditableFormField {
 	
-	static $singular_name = 'File Upload Field';
-	static $plural_names = 'File Fields';
+	private static $singular_name = 'File Upload Field';
+	private static $plural_names = 'File Fields';
 	
 	public function getFormField() {
 		$field = new FileField($this->Name, $this->Title);

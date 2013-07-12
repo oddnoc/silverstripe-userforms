@@ -5,7 +5,7 @@
  */	
 class SubmittedFormTest extends FunctionalTest {
 
-	static $fixture_file = 'userforms/tests/SubmittedFormTest.yml';
+	private static $fixture_file = 'userforms/tests/SubmittedFormTest.yml';
 	
 	protected $controller, $form, $page, $field;
 	

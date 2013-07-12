@@ -9,7 +9,7 @@
 
 class FieldEditorTest extends FunctionalTest {
 	
-	static $fixture_file = 'userforms/tests/UserDefinedFormTest.yml';
+	private static $fixture_file = 'userforms/tests/UserDefinedFormTest.yml';
 	
 	protected $editor;
 	

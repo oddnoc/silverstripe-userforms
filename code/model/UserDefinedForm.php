@@ -9,17 +9,17 @@ class UserDefinedForm extends Page {
 	/**
 	 * @var string
 	 */
-	public static $description = 'Adds a customizable form.';
+	private static $description = 'Adds a customizable form.';
 
 	/**
 	 * @var string Required Identifier
 	 */
-	public static $required_identifier = null;
+	private static $required_identifier = null;
 	
 	/**
 	 * @var array Fields on the user defined form page.
 	 */
-	public static $db = array(
+	private static $db = array(
 		"SubmitButtonText" => "Varchar",
 		"OnCompleteMessage" => "HTMLText",
 		"ShowClearButton" => "Boolean",
@@ -31,7 +31,7 @@ class UserDefinedForm extends Page {
 	/**
 	 * @var array Default values of variables when this page is created
 	 */ 
-	public static $defaults = array(
+	private static $defaults = array(
 		'Content' => '$UserDefinedForm',
 		'DisableSaveSubmissions' => 0,
 		'OnCompleteMessage' => '<p>Thanks, we\'ve received your submission.</p>'
@@ -40,7 +40,7 @@ class UserDefinedForm extends Page {
 	/**
 	 * @var array
 	 */
-	public static $has_many = array(
+	private static $has_many = array(
 		"Fields" => "EditableFormField",
 		"Submissions" => "SubmittedForm",
 		"EmailRecipients" => "UserDefinedForm_EmailRecipient"
@@ -69,10 +69,15 @@ class UserDefinedForm extends Page {
 		$editor->setRows(3);
 		$label->addExtraClass('left');		
 
-		UserDefinedForm_EmailRecipient::$summary_fields=array(
-			'EmailAddress' => _t('UserDefinedForm.EMAILADDRESS', 'Email'),
-			'EmailSubject' => _t('UserDefinedForm.EMAILSUBJECT', 'Subject'),
-			'EmailFrom' => _t('UserDefinedForm.EMAILFROM', 'From')
+		// Set the summary fields of UserDefinedForm_EmailRecipient dynamically via config system
+		Config::inst()->update(
+			'UserDefinedForm_EmailRecipient',
+			'summary_fields',
+			array(
+				'EmailAddress' => _t('UserDefinedForm.EMAILADDRESS', 'Email'),
+				'EmailSubject' => _t('UserDefinedForm.EMAILSUBJECT', 'Subject'),
+				'EmailFrom' => _t('UserDefinedForm.EMAILFROM', 'From'),
+			)
 		);
 
 		// who do we email on submission
@@ -965,7 +970,7 @@ JS
  */
 class UserDefinedForm_EmailRecipient extends DataObject {
 	
-	public static $db = array(
+	private static $db = array(
 		'EmailAddress' => 'Varchar(200)',
 		'EmailSubject' => 'Varchar(200)',
 		'EmailFrom' => 'Varchar(200)',
@@ -975,12 +980,14 @@ class UserDefinedForm_EmailRecipient extends DataObject {
 		'HideFormData' => 'Boolean'
 	);
 	
-	public static $has_one = array(
+	private static $has_one = array(
 		'Form' => 'UserDefinedForm',
 		'SendEmailFromField' => 'EditableFormField',
 		'SendEmailToField' => 'EditableFormField'
 	);
 	
+	private static $summary_fields = array();
+
 	/**
 	 * @return FieldList
 	 */
