@@ -30,9 +30,9 @@
 					<ul class="editableOptions" id="$FieldName.ATT-list">
 
 						<% if canEdit %>
-							<% control Options %>
+							<% with Options %>
 								$EditSegment
-							<% end_control %>
+							<% end_with %>
 							<% if HasAddableOptions %>
 								<li class="{$ClassName}Option">
 									<a href="#" rel="$ID" class="addableOption" title="<% _t('ADD', 'Add option to field') %>">
@@ -41,9 +41,9 @@
 								</li>
 							<% end_if %>
 						<% else %>
-							<% control Options %>
+							<% with Options %>
 								$ReadonlyOption
-							<% end_control %>
+							<% end_with %>
 						<% end_if %>
 					</ul>
 				</fieldset>
@@ -52,18 +52,18 @@
 			<% if FieldConfiguration %>
 				<fieldset class="fieldOptionsGroup">
 					<legend><% _t('FIELDCONFIGURATION', 'Field Configuration') %></legend>
-					<% control FieldConfiguration %>
+					<% with FieldConfiguration %>
 						$FieldHolder
-					<% end_control %>
+					<% end_with %>
 				</fieldset>
 			<% end_if %>
 			
 			<% if FieldValidationOptions %>
 				<fieldset class="fieldOptionsGroup">
 					<legend><% _t('VALIDATION', 'Validation') %></legend>
-					<% control FieldValidationOptions %>
+					<% with FieldValidationOptions %>
 						$FieldHolder
-					<% end_control %>
+					<% end_with %>
 				</fieldset>
 			<% end_if %>
 		
@@ -90,13 +90,13 @@
 						<label><% _t('WHEN', 'When') %></label>
 						<select class="fieldOption customRuleField" name="{$FieldName}[CustomRules][ConditionField]">
 							<option></option>
-							<% control Parent %>
+							<% with Parent %>
 								<% if Fields %>
-									<% control Fields %>
+									<% loop Fields %>
 										<option value="$Name"><% if Title %>$Title<% else %>$Name<% end_if %></option>
-									<% end_control %>
+									<% end_loop %>
 								<% end_if %>
-							<% end_control %>
+							<% end_with %>
 						</select>
 
 						<label><% _t('IS', 'Is') %></label>
@@ -117,11 +117,38 @@
 						<a href="#" class="deleteCondition" title="<% _t('DELETE', 'Delete') %>"><img src="cms/images/delete.gif" alt="<% _t('DELETE', 'Delete') %>" /></a>
 					</li>
 					<% if CustomRules %>
-						<% control CustomRules %>
+						<% loop CustomRules %>
 							<li>
-								<% include CustomRule %>
+<select class="displayOption customRuleField" name="{$FieldName}[CustomRules][$Pos][Display]">
+	<option value="Show" <% if Display = Show %>selected="selected"<% end_if %>><% _t('SHOWTHISFIELD', 'Show This Field') %></option>
+	<option value="Hide" <% if Display = Hide %>selected="selected"<% end_if %>><% _t('HIDETHISFIELD', 'Hide This Field') %></option>
+</select>
+	
+<label><% _t('WHEN', 'When') %></label>
+<select class="fieldOption customRuleField" name="{$FieldName}[CustomRules][$Pos][ConditionField]">
+	<option value="" selected="selected"></option>
+	<% loop Fields %>
+		<option value="$Name" <% if isSelected %>selected="selected"<% end_if %>>$Title</option>
+	<% end_loop %>
+</select>
+
+<label><% _t('IS', 'Is') %></label>
+<select class="conditionOption customRuleField" name="{$FieldName}[CustomRules][$Pos][ConditionOption]">
+	<option value="IsBlank" <% if ConditionOption = IsBlank %>selected="selected"<% end_if %>><% _t('BLANK', 'Blank') %></option>
+	<option value="IsNotBlank" <% if ConditionOption = IsNotBlank %>selected="selected"<% end_if %>><% _t('NOTBLANK', 'Not Blank') %></option>
+	<option value="HasValue" <% if ConditionOption = HasValue %>selected="selected"<% end_if %>><% _t('VALUE', 'Value') %></option>
+	<option value="ValueNot" <% if ConditionOption = ValueNot %>selected="selected"<% end_if %>><% _t('NOTVALUE', 'Not Value') %></option>
+	<option value="ValueLessThan" <% if ConditionOption = ValueLessThan %>selected="selected"<% end_if %>><% _t('LESSTHAN', 'Value Less Than') %></option>
+	<option value="ValueLessThanEqual" <% if ConditionOption = ValueLessThanEqual %>selected="selected"<% end_if %>><% _t('LESSTHANEQUAL', 'Value Less Than Or Equal') %></option>
+	<option value="ValueGreaterThan" <% if ConditionOption = ValueGreaterThan %>selected="selected"<% end_if %>><% _t('GREATERTHAN', 'Value Greater Than') %></option>
+	<option value="ValueGreaterThanEqual" <% if ConditionOption = ValueGreaterThanEqual %>selected="selected"<% end_if %>><% _t('GREATERTHANEQUAL', 'Value Greater Than Or Equal') %></option>
+</select>
+
+<input type="text" class="ruleValue <% if ConditionOption %><% if ConditionOption = IsBlank %>hidden<% else_if ConditionOption = IsNotBlank %>hidden<% end_if %><% else %>hidden<% end_if %> customRuleField" name="{$FieldName}[CustomRules][$Pos][Value]" value="$Value" />
+
+<a href="#" class="deleteCondition" title="<% _t('DELETE', 'Delete') %>"><img src="cms/images/delete.gif" alt="<% _t('DELETE', 'Delete') %>" /></a>
 							</li>
-						<% end_control %>
+						<% end_loop %>
 					<% end_if %>
 				</ul>
 			</fieldset>
