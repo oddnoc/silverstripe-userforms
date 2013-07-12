@@ -426,7 +426,7 @@ class UserDefinedForm_Controller extends Page_Controller {
 				if($editableField->Required) {
 					$field->addExtraClass('requiredField');
 					
-					if($identifier = UserDefinedForm::$required_identifier) {
+					if($identifier = Config::inst()->get('UserDefinedForm', 'required_identifier')) {
 						
 						$title = $field->Title() ." <span class='required-identifier'>". $identifier . "</span>";
 						$field->setTitle($title);
