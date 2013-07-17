@@ -7,6 +7,13 @@
 
 class SubmittedFormReportField extends FormField {
 	
+	private static $allowed_actions = array(
+		'getMoreSubmissions' => 'ADMIN',
+		'deletesubmission' => 'ADMIN',
+		'deletesubmissions' => 'ADMIN',
+		'export' => 'ADMIN',
+	);
+
 	public function Field($properties = array()) {
 		Requirements::css(FRAMEWORK_DIR . "/css/SubmittedFormReportField.css");
 		Requirements::javascript("userforms/javascript/UserForm.js");
